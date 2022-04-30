@@ -1,83 +1,85 @@
-CREATE TABLE cliente (
+CREATE TABLE client (
     id          INTEGER     PRIMARY KEY,
     email       TEXT        NOT NULL UNIQUE,
-    senha       TEXT        NOT NULL,
-    nome        TEXT        NOT NULL,
+    phc_string  TEXT        NOT NULL,
+    name        TEXT        NOT NULL,
+    telephone   TEXT        NOT NULL,
+    address     TEXT        NOT NULL,
     cpf         TEXT        NOT NULL,
-    telefone    TEXT        NOT NULL,
-    endereco    TEXT        NOT NULL,
     cnh         TEXT        NOT NULL
 );
 
-CREATE TABLE agencia (
+CREATE TABLE branch (
     id          INTEGER     PRIMARY KEY,
-    endereco    TEXT        NOT NULL
+    address     TEXT        NOT NULL
 );
 
-CREATE TABLE funcao_colaborador (
+CREATE TABLE employee_role (
     id          INTEGER     PRIMARY KEY,
-    descricao   TEXT        NOT NULL
+    description TEXT        NOT NULL
 );
 
-CREATE TABLE colaborador (
+CREATE TABLE employee (
     id          INTEGER     PRIMARY KEY,
     email       TEXT        NOT NULL UNIQUE,
-    senha       TEXT        NOT NULL,
-    nome        TEXT        NOT NULL,
+    phc_string  TEXT        NOT NULL,
+    name        TEXT        NOT NULL,
+    telephone   TEXT        NOT NULL,
+    address     TEXT        NOT NULL,
     cpf         TEXT        NOT NULL,
-    telefone    TEXT        NOT NULL,
-    endereco    TEXT        NOT NULL,
     cnh         TEXT        NOT NULL,
-    id_funcao   INTEGER     NOT NULL REFERENCES funcao_colaborador(id) ON UPDATE CASCADE ON DELETE RESTRICT
+    role_id     INTEGER     NOT NULL REFERENCES employee_role(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
-CREATE TABLE agencia_colaborador (
-    id_colaborador      INTEGER     PRIMARY KEY REFERENCES colaborador(id),
-    id_agencia          INTEGER     NOT NULL REFERENCES agencia(id)
+CREATE TABLE employee_branch (
+    employee_id INTEGER     PRIMARY KEY REFERENCES employee(id),
+    branch_id   INTEGER     NOT NULL REFERENCES branch(id)
 );
 
-CREATE TABLE categoria_veiculo (
+CREATE TABLE vehicle_category (
     id          INTEGER     PRIMARY KEY,
-    codigo      TEXT        NOT NULL,
-    descricao   TEXT        NOT NULL,
-    preco       INTEGER     NOT NULL -- preço em centavos para evitar erros devido à representação em memória do float64
+    code        TEXT        NOT NULL,
+    description TEXT        NOT NULL,
+    price       INTEGER     NOT NULL -- preço em centavos para evitar erros devido à representação em memória do float64
 );
 
-CREATE TABLE situacao_veiculo (
+CREATE TABLE vehicle_situation (
     id          INTEGER     PRIMARY KEY,
-    descricao   TEXT        NOT NULL
+    description TEXT        NOT NULL
 );
 
-CREATE TABLE veiculo (
+CREATE TABLE vehicle (
     id              INTEGER     PRIMARY KEY,
-    placa           TEXT        NOT NULL,
+    model           TEXT        NOT NULL,
+    color           TEXT        NOT NULL,
+    plate           TEXT        NOT NULL,
     renavam         TEXT        NOT NULL,
-    id_categoria    INTEGER     NOT NULL REFERENCES categoria_veiculo(id) ON UPDATE CASCADE ON DELETE RESTRICT,
-    id_agencia      INTEGER     NOT NULL REFERENCES agencia(id) ON UPDATE CASCADE ON DELETE RESTRICT,
-    id_situacao     INTEGER     NOT NULL REFERENCES situacao_veiculo(id) ON UPDATE CASCADE ON DELETE RESTRICT
+    category_id     INTEGER     NOT NULL REFERENCES vehicle_category(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    branch_id       INTEGER     NOT NULL REFERENCES branch(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    situation_id    INTEGER     NOT NULL REFERENCES vehicle_situation(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
-CREATE TABLE locacao (
-    id                      INTEGER     PRIMARY KEY,
-    id_cliente              INTEGER     NOT NULL REFERENCES cliente(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    data                    INTEGER     NOT NULL DEFAULT (strftime('%s', 'now')), -- unix timestamp
-    id_veiculo              INTEGER     NOT NULL REFERENCES veiculo(id) ON UPDATE CASCADE ON DELETE RESTRICT,
-    id_agencia_retirada     INTEGER     NOT NULL REFERENCES agencia(id) ON UPDATE CASCADE ON DELETE RESTRICT,
-    data_esperada_retirada  INTEGER     NOT NULL,
-    id_agencia_devolucao    INTEGER     NOT NULL REFERENCES agencia(id) ON UPDATE CASCADE ON DELETE RESTRICT,
-    data_esperada_devolucao INTEGER     NOT NULL
+CREATE TABLE rental (
+    id                          INTEGER     PRIMARY KEY,
+    client_id                   INTEGER     NOT NULL REFERENCES client(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    date                        INTEGER     NOT NULL DEFAULT (strftime('%s', 'now')), -- unix timestamp
+    vehicle_id                  INTEGER     NOT NULL REFERENCES vehicle(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    withdrawal_branch_id        INTEGER     NOT NULL REFERENCES branch(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    expected_withdrawal_date    INTEGER     NOT NULL,
+    dropoff_branch_id           INTEGER     NOT NULL REFERENCES branch(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    expected_dropoff_date       INTEGER     NOT NULL
 );
 
-CREATE TABLE retirada (
-    id_locacao      INTEGER     PRIMARY KEY REFERENCES locacao(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    data            INTEGER     NOT NULL DEFAULT (strftime('%s', 'now')),
-    id_atendente    INTEGER     NOT NULL REFERENCES colaborador(id) ON UPDATE CASCADE ON DELETE RESTRICT
+CREATE TABLE withdrawal (
+    rental_id       INTEGER     PRIMARY KEY REFERENCES rental(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    date            INTEGER     NOT NULL DEFAULT (strftime('%s', 'now')),
+    attendant_id    INTEGER     NOT NULL REFERENCES employee(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
-CREATE TABLE devolucao (
-    id_locacao      INTEGER     PRIMARY KEY REFERENCES locacao(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    data            INTEGER     NOT NULL DEFAULT (strftime('%s', 'now')),
-    id_atendente    INTEGER     NOT NULL REFERENCES colaborador(id) ON UPDATE CASCADE ON DELETE RESTRICT,
-    observacoes     TEXT        NOT NULL,
-    preco           INTEGER     NOT NULL
+CREATE TABLE dropoff (
+    rental_id       INTEGER     PRIMARY KEY REFERENCES rental(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    date            INTEGER     NOT NULL DEFAULT (strftime('%s', 'now')),
+    attendant_id    INTEGER     NOT NULL REFERENCES employee(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    remarks         TEXT        NOT NULL,
+    price           INTEGER     NOT NULL
 );
