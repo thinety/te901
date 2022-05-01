@@ -55,7 +55,7 @@ def main():
         print(f'Número de diárias: {dropoff_info.expected_amount_of_days}\n')
 
         print(f'Data de retirada: {dropoff_info.withdrawal_date.day:02}/{dropoff_info.withdrawal_date.month:02}/{dropoff_info.withdrawal_date.year:04} {dropoff_info.withdrawal_date.hour:02}:{dropoff_info.withdrawal_date.minute:02}:{dropoff_info.withdrawal_date.second:02}')
-        print(f'Data de devolução: {dropoff_date.day:02}/{dropoff_date.month:02}/{dropoff_date.year:04} {dropoff_info.withdrawal_date.hour:02}:{dropoff_info.withdrawal_date.minute:02}:{dropoff_info.withdrawal_date.second:02}\n')
+        print(f'Data de devolução: {dropoff_date.day:02}/{dropoff_date.month:02}/{dropoff_date.year:04} {dropoff_date.hour:02}:{dropoff_date.minute:02}:{dropoff_date.second:02}\n')
 
         print(f'Preço da diária: R$ {dropoff_info.daily_price:.2f}')
         print(f'Subtotal: R$ {price:.2f}\n')
