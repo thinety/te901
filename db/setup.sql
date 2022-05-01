@@ -73,7 +73,8 @@ CREATE TABLE rental (
 CREATE TABLE withdrawal (
     rental_id       INTEGER     PRIMARY KEY REFERENCES rental(id) ON UPDATE CASCADE ON DELETE CASCADE,
     date            INTEGER     NOT NULL DEFAULT (strftime('%s', 'now')),
-    attendant_id    INTEGER     NOT NULL REFERENCES employee(id) ON UPDATE CASCADE ON DELETE RESTRICT
+    attendant_id    INTEGER     NOT NULL REFERENCES employee(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    remarks         TEXT        NOT NULL
 );
 
 CREATE TABLE dropoff (
