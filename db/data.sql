@@ -70,21 +70,15 @@ INSERT INTO vehicle_category (id, code, description, price) VALUES
     (3, 'E3', 'Econômico completo',     17153),
     (4, 'S1', 'Econômico sedan com ar', 17472);
 
-INSERT INTO vehicle_situation (id, description) VALUES
-    (1, 'Disponível'),
-    (2, 'Alugado'),
-    (3, 'Em manutenção'),
-    (4, 'Vendido');
-
-INSERT INTO vehicle (model, color, plate, renavam, category_id, branch_id, situation_id) VALUES
-    ('Fiat Mobi',        'cinza',    'HZI8546', '31389461598', 1, 1, 1),
-    ('Renault Kwid',     'branco',   'KJO0972', '92222785197', 1, 5, 1),
-    ('Renault Sandero',  'branco',   'HQB7524', '51270925770', 2, 8, 1),
-    ('Chevrolet Joy',    'preto',    'JZQ8641', '17875833700', 2, 4, 1),
-    ('Volkswagen Gol',   'vermelho', 'KBZ0104', '45911805214', 2, 6, 2),
-    ('Fiat Argo',        'prata',    'HPZ3509', '22881713695', 3, 7, 1),
-    ('Chevrolet Onix',   'cinza',    'NES2712', '30720784036', 3, 8, 1),
-    ('Hyundai HB20',     'branco',   'LBC5708', '52459690135', 3, 2, 3),
-    ('Renault Logan',    'prata',    'MOJ5827', '99296266930', 4, 3, 1),
-    ('Hyundai HB20S',    'prata',    'MUF3326', '84948277280', 4, 1, 1),
-    ('Chevrolet Prisma', 'preto',    'IPU8746', '22156284708', 4, 8, 4);
+INSERT INTO vehicle (model, color, plate, renavam, category_id, branch_id) VALUES
+    ('Fiat Mobi',        'cinza',    'HZI8546', '31389461598', 1, 1),
+    ('Renault Kwid',     'branco',   'KJO0972', '92222785197', 1, 5),
+    ('Renault Sandero',  'branco',   'HQB7524', '51270925770', 2, 8),
+    ('Chevrolet Joy',    'preto',    'JZQ8641', '17875833700', 2, 4),
+    ('Volkswagen Gol',   'vermelho', 'KBZ0104', '45911805214', 2, 6),
+    ('Fiat Argo',        'prata',    'HPZ3509', '22881713695', 3, 7),
+    ('Chevrolet Onix',   'cinza',    'NES2712', '30720784036', 3, 8),
+    ('Hyundai HB20',     'branco',   'LBC5708', '52459690135', 3, 2),
+    ('Renault Logan',    'prata',    'MOJ5827', '99296266930', 4, 3),
+    ('Hyundai HB20S',    'prata',    'MUF3326', '84948277280', 4, 1),
+    ('Chevrolet Prisma', 'preto',    'IPU8746', '22156284708', 4, 8);

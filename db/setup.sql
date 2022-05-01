@@ -43,11 +43,6 @@ CREATE TABLE vehicle_category (
     price       INTEGER     NOT NULL -- preço em centavos para evitar erros devido à representação em memória do float64
 );
 
-CREATE TABLE vehicle_situation (
-    id          INTEGER     PRIMARY KEY,
-    description TEXT        NOT NULL
-);
-
 CREATE TABLE vehicle (
     id              INTEGER     PRIMARY KEY,
     model           TEXT        NOT NULL,
@@ -55,8 +50,7 @@ CREATE TABLE vehicle (
     plate           TEXT        NOT NULL,
     renavam         TEXT        NOT NULL,
     category_id     INTEGER     NOT NULL REFERENCES vehicle_category(id) ON UPDATE CASCADE ON DELETE RESTRICT,
-    branch_id       INTEGER     NOT NULL REFERENCES branch(id) ON UPDATE CASCADE ON DELETE RESTRICT,
-    situation_id    INTEGER     NOT NULL REFERENCES vehicle_situation(id) ON UPDATE CASCADE ON DELETE RESTRICT
+    branch_id       INTEGER     NOT NULL REFERENCES branch(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 CREATE TABLE rental (
