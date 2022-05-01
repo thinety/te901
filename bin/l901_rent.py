@@ -5,7 +5,7 @@ def main():
 
 
     print('----- 901 LOCAÇÕES -----')
-    print('(utilitário de aluguel)')
+    print('(utilitário de locação)')
     print()
 
     with L901('db/.sqlite3') as l901:

@@ -18,9 +18,9 @@ INSERT INTO client (email, phc_string, name, telephone, address, cpf, cnh) VALUE
     ('emanuellelm@outlook.com',      '$scrypt$ln=14,r=8,p=1$KaMxHv5oiI6ZmbOmcHmJcyvcNoGgyfb7$7vZ0cvHJcihJqtr9Xgy2ywBMDE8xm+Za+82qIJ6E9Lcm0kKfG/H0O5d8KNOMDsio', 'Emanuelle Luara Matias',    '+55 45 3685 3021', 'Rua João Saturnino Justino da Silva, 32, Rio Maina, Londrina - PR',        '95275696990', '46123461006');
 
 INSERT INTO branch (id, address) VALUES
-    (1, 'Jardim das américas - Curitiba - PR'),
+    (1, 'Jardim das Américas - Curitiba - PR'),
     (2, 'Centro - Curitiba - PR'),
-    (3, 'Santa felicidade - Curitiba - PR'),
+    (3, 'Santa Felicidade - Curitiba - PR'),
     (4, 'Portão - Curitiba - PR'),
     (5, 'Aeroporto Internacional Afonso Pena - São José dos Pinhais - PR'),
     (6, 'Londrina - PR'),
