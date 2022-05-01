@@ -147,20 +147,31 @@ class L901:
         with self._connection.cursor() as cursor:
             cursor.execute(
                 '''
-                SELECT e.phc_string, e.id, e.name, eb.branch_id
+                SELECT e.phc_string, e.id, e.name, er.id, er.description, b.id, b.address
                 FROM employee AS e
+                    JOIN employee_role AS er
+                        ON e.role_id = er.id
                     LEFT JOIN employee_branch AS eb
                         ON e.id = eb.employee_id
+                    LEFT JOIN branch AS b
+                        ON eb.branch_id = b.id
                 WHERE email = ?;
                 ''',
                 (email,),
             )
-            (phc_string, id, name, branch_id) = cursor.fetchone()
+            (phc_string, id, name, role_id, role_description, branch_id, branch_address) = cursor.fetchone()
 
         if not _verify_password(password, phc_string):
             raise Exception('Wrong password')
 
-        return _Employee(id, name, branch_id, self._connection)
+        role = (role_id, role_description)
+
+        if branch_id is not None:
+            branch = (branch_id, branch_address)
+        else:
+            branch = None
+
+        return _Employee(id, name, role, branch, self._connection)
 
     def get_categories(self):
         with self._connection.cursor() as cursor:
@@ -256,12 +267,13 @@ class _Client:
 class _Employee:
     _id: int
     name: str
-    _branch_id: int | None
+    role: tuple[int, str]
+    branch: tuple[int, str] | None
     _connection: _database.Connection
 
     def get_open_withdrawals(self):
         with self._connection.cursor() as cursor:
-            if self._branch_id is not None:
+            if self.branch is not None:
                 cursor.execute(
                     '''
                     SELECT r.id, c.name, v.model
@@ -276,7 +288,7 @@ class _Employee:
                     ORDER BY r.expected_withdrawal_date ASC
                     LIMIT 5;
                     ''',
-                    (self._id,),
+                    (self.branch[0],),
                 )
             else:
                 cursor.execute(
@@ -314,7 +326,7 @@ class _Employee:
 
     def get_open_dropoffs(self):
         with self._connection.cursor() as cursor:
-            if self._branch_id is not None:
+            if self.branch is not None:
                 cursor.execute(
                     '''
                     SELECT r.id, c.name, v.model
@@ -331,7 +343,7 @@ class _Employee:
                     ORDER BY r.expected_dropoff_date ASC
                     LIMIT 5;
                     ''',
-                    (self._id,),
+                    (self.branch[0],),
                 )
             else:
                 cursor.execute(

@@ -28,9 +28,9 @@ INSERT INTO branch (id, address) VALUES
     (9, 'Blumenau - SC');
 
 INSERT INTO employee_role (id, description) VALUES
-    (1, 'Atendente'),
-    (2, 'Gerente'),
-    (3, 'Diretor');
+    (1, 'atendente'),
+    (2, 'gerente'),
+    (3, 'diretor');
 
 INSERT INTO employee (id, email, phc_string, name, telephone, address, cpf, cnh, role_id) VALUES
     (1,  'lianev@901locacoes.br',      '$scrypt$ln=14,r=8,p=1$7ixw0fWpQHtGyoAGSfoKsGWh15a19s2r$7INKW/fPaCMYY1pne9GE1gp51Ysmtw41K1rhDM7d5aGfJ3Mste9Ni/8vQKR+1u6Z', 'Liane Velasques',        '+55 42 2445 4528', 'Rua Gilberto Haliski, 332, Capela Velha, Curitiba - PR',                        '52740790910', '27132758801', 1), -- senha: Q4lJXrA

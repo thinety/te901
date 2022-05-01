@@ -13,7 +13,10 @@ def main():
 
         employee = l901.login_employee(email=email, password=password)
 
-        print(f'Seja bem vindo(a), {employee.name}\n')
+        print(f'Seja bem vindo(a), {employee.name} ({employee.role[1]}', end='')
+        if employee.branch is not None:
+            print(f' na agência {employee.branch[1]}', end='')
+        print(')\n')
 
 
         open_withdrawals = employee.get_open_withdrawals()
